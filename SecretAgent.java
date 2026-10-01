@@ -50,10 +50,10 @@ public class SecretAgent {
         //                            rest  = "Elizabeth Lee"
         //   Now look for a space INSIDE rest.
 
-        int firstSpace  = 0;     // TODO: where is the first space in fullName?
-        String first    = "";    // TODO: everything before it
-        String rest     = "";    // TODO: everything after it
-        int secondSpace = 0;     // TODO: where is the space inside rest?
+        int firstSpace  = fullName.indexOf(" ");     // TODO: where is the first space in fullName?
+        String first    = fullName.substring(0, firstSpace);    // TODO: everything before it
+        String rest     = fullName.substring(firstSpace+1);    // TODO: everything after it
+        int secondSpace = rest.indexOf(" ");     // TODO: where is the space inside rest?
 
         // NOT a TODO - leave these three lines alone.
         // They are declared HERE, before the if, so they still exist after it.
@@ -70,14 +70,14 @@ public class SecretAgent {
 
         if (secondSpace == -1) {
             // Two names, e.g. "Maya Adams".  rest is the last name.
-            // TODO: last = ...
-            // TODO: initials = ...          -> "MA"
+            last = rest;
+            initials = first.substring(0,1) + last.substring(0,1);
 
         } else {
             // Three names, e.g. "Regina Elizabeth Lee".
-            // TODO: middle = ...            everything in rest before the space
-            // TODO: last = ...              everything in rest after the space
-            // TODO: initials = ...          -> "REL"
+            middle = rest.substring(0, rest.indexOf(" "));        //everything in rest before the space
+            last = rest.substring(rest.indexOf(" ") + 1);           //everything in rest after the space
+            initials = first.substring(0,1) + middle.substring(0,1) + last.substring(0,1);
 
         }
 
@@ -91,20 +91,23 @@ public class SecretAgent {
         // If any line in it throws, Java jumps straight to the matching catch.
 
         try {
-            String year  = "";   // TODO: substring
-            String month = "";   // TODO: substring
-            String day   = "";   // TODO: substring
+            String year  = dob.substring(0, 4);   // TODO: substring
+            String month = dob.substring(5, 7);   // TODO: substring
+            String day = dob.substring(8, 11);   // TODO: substring
             int birthYear = Integer.parseInt(year);
 
             // TODO: print   Born: 09/30/2009 (month/day/year)
+            System.out.println(month + "/" + day + "/" + year);
 
             // TODO: print   Age(end 2026): 17 (2026 - birthYear)
-
+            System.out.println("Age(end 2026): " + (2026 - birthYear));
             // TODO: build and print the Agent ID:
             //       first initial + last name, both lowercase, then the last
             //       TWO characters of year.     "R" + "Lee" + "09" -> rlee09
             //       Use year.length() to find where the last two start.
             //       use toLowerCase()
+            String id = initials.substring(0,1).toLowerCase() + last.toLowerCase() + year.substring(year.length() - 2);
+            System.out.println("Agent ID: " + id);
 
         } catch (StringIndexOutOfBoundsException e) {
             System.out.println("DATE OF BIRTH:   CORRUPTED - too short for YYYY-MM-DD");
@@ -116,14 +119,16 @@ public class SecretAgent {
         // ==== PART 3 - THE EMAIL  (Problem 3 from slides) ===================
         // The domain is everything AFTER the @.
 
-        int at        = 0;     // TODO: where is the @ ?
-        String domain = "";    // TODO: everything after it   (think about the + 1)
+        int at = email.indexOf("@");     // TODO: where is the @ ?
+        String domain = email.substring(at + 1);    // TODO: everything after it   (think about the + 1)
 
         // TODO: YOUR SECOND if STATEMENT - change this to use equals, not ==.
-        if (domain == (agencyDomain)) {
+        if (domain.equals(agencyDomain)) {
+            System.out.println("Clearance:       GRANTED - agency email verified");
             // TODO: print   Clearance:       GRANTED - agency email verified
 
         } else {
+            System.out.println("Clearance:       DENIED - " + domain + " is not an agency address");
             // TODO: print   Clearance:       DENIED - gmail.com is not an agency address
             //       (use the real domain, not the word gmail.com)
 
@@ -134,16 +139,17 @@ public class SecretAgent {
         // Agents are filed alphabetically by last name.
         // compareTo gives a negative number if last comes BEFORE handler.
 
-        int order = 0;         // TODO: compare last to handler with compareTo
+        int order = last.compareTo(handler);         // TODO: compare last to handler with compareTo
 
         System.out.println("Filing check:    \"" + last + "\".compareTo(\"" + handler + "\") = " + order);
 
         if (order < 0) {
             // TODO: print   Filed BEFORE your handler, Agent Gesell.
+            System.out.println("Filed BEFORE your handler, Agent Gesell.");
 
         } else {
             // TODO: print   Filed AFTER your handler, Agent Gesell.
-
+            System.out.println("Filed AFTER your handler, Agent Gesell.");
         }
 
 
@@ -168,16 +174,21 @@ public class SecretAgent {
    and WHY, in a sentence or two each.
 
    1. Date of birth  2009-9-30        Which catch ran? Why that one?
+   catch (StringIndexOutOfBoundsException e) ran because the .substring was trying to reach a character that didn't exist.
 
    2. Date of birth  Sept 30 2009     Which catch ran? Why that one?
+   catch (NumberFormatException e) because there should have been a number not a string
 
    3. Email with no @:  rleebvsd.org
       Did it crash? What did the dossier say, and is it telling the truth?
+      It did not crash, and it said rleebvsd.org is not an agency address, which is true
 
    4. Change domain.equals(agencyDomain) back to  domain == agencyDomain
       and run it with a correct bvsd.org email. What happens? Why?
+      It always fails because == doesn't compare the value of the Strings because they are not primitives
       (Then change it back again.)
 
    5. Type your last name all in lowercase. Where were you filed? Why?
+   I was filed after because the code for all lowercase letters come after the ones for uppercase letters.
 
    ======================================================================= */
