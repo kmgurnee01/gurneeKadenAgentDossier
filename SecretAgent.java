@@ -75,8 +75,8 @@ public class SecretAgent {
 
         } else {
             // Three names, e.g. "Regina Elizabeth Lee".
-            middle = rest.substring(0, rest.indexOf(" "));        //everything in rest before the space
-            last = rest.substring(rest.indexOf(" ") + 1);           //everything in rest after the space
+            middle = rest.substring(0, secondSpace);        //everything in rest before the space
+            last = rest.substring(secondSpace + 1);           //everything in rest after the space
             initials = first.substring(0,1) + middle.substring(0,1) + last.substring(0,1);
 
         }
@@ -93,7 +93,7 @@ public class SecretAgent {
         try {
             String year  = dob.substring(0, 4);   // TODO: substring
             String month = dob.substring(5, 7);   // TODO: substring
-            String day = dob.substring(8, 11);   // TODO: substring
+            String day = dob.substring(8, 10);   // TODO: substring
             int birthYear = Integer.parseInt(year);
 
             // TODO: print   Born: 09/30/2009 (month/day/year)
@@ -106,7 +106,7 @@ public class SecretAgent {
             //       TWO characters of year.     "R" + "Lee" + "09" -> rlee09
             //       Use year.length() to find where the last two start.
             //       use toLowerCase()
-            String id = initials.substring(0,1).toLowerCase() + last.toLowerCase() + year.substring(year.length() - 2);
+            String id = first.substring(0,1).toLowerCase() + last.toLowerCase() + year.substring(year.length() - 2);
             System.out.println("Agent ID: " + id);
 
         } catch (StringIndexOutOfBoundsException e) {
